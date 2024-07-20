@@ -14,6 +14,7 @@ func main() {
 	controller.FarmController()
 	controller.PondController()
 	controller.UserController()
+	controller.StatisticsController()
 
 	// Start the Gin server
 	err := r.Run("0.0.0.0:8989")

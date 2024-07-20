@@ -11,17 +11,17 @@ func PondController () {
 	r := config.SetupRouter()
 
 	// List Pond
-	r.GET("/pond/list", middleware.AuthMiddleware(hmacSecret), service.PondList)
+	r.GET("/pond/list", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.PondList)
 
 	// List Pond By Id
-	r.GET("/pond/list/:id", middleware.AuthMiddleware(hmacSecret), service.PondListById)
+	r.GET("/pond/list/:id", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.PondListById)
 
 	// Create Pond
-	r.POST("/pond/create", middleware.AuthMiddleware(hmacSecret), service.CreatePond)
+	r.POST("/pond/create", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.CreatePond)
 
 	// Update Pond
-	r.PUT("/pond/update", middleware.AuthMiddleware(hmacSecret), service.UpdatePond)
+	r.PUT("/pond/update", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.UpdatePond)
 
 	// Delete Pond
-	r.DELETE("/pond/delete/:id", middleware.AuthMiddleware(hmacSecret), service.DeletePond)
+	r.DELETE("/pond/delete/:id", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.DeletePond)
 }

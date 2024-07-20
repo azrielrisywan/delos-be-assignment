@@ -11,17 +11,17 @@ func FarmController () {
 	r := config.SetupRouter()
 
 	// List Farm
-    r.GET("/farm/list", middleware.AuthMiddleware(hmacSecret), service.FarmList)
+    r.GET("/farm/list", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.FarmList)
 
 	// List Farm By Id
-	r.GET("/farm/list/:id", middleware.AuthMiddleware(hmacSecret), service.FarmListById)
+	r.GET("/farm/list/:id", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.FarmListById)
 
 	// Create Farm
-	r.POST("/farm/create", middleware.AuthMiddleware(hmacSecret), service.CreateFarm)
+	r.POST("/farm/create", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.CreateFarm)
 
 	// Update Farm
-	r.PUT("/farm/update", middleware.AuthMiddleware(hmacSecret), service.UpdateFarm)
+	r.PUT("/farm/update", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.UpdateFarm)
 
 	// Delete Farm
-	r.DELETE("/farm/delete/:id", middleware.AuthMiddleware(hmacSecret), service.DeleteFarm)
+	r.DELETE("/farm/delete/:id", middleware.AuthMiddleware(hmacSecret), middleware.TrackUsage(), service.DeleteFarm)
 }

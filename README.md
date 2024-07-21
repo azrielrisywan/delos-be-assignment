@@ -4,6 +4,17 @@ I've built this app using GoLang. PostgreSQL is utilized for data storage, hoste
 
 This is a brief guide on how to install and use the app. You can see the link to API Documentation at the bottom of this readme.
 
+## Architecture
+
+The application follows a layered architecture consisting of four main components:
+
+- **Controller:** Manages HTTP requests and responses, and acts as the entry point for API interactions.
+- **Service:** Contains business logic and coordinates the interaction between the controller and the data access layer.
+- **DAO (Data Access Object):** Handles direct database operations and queries, ensuring a clean separation between the business logic and database.
+- **DTO (Data Transfer Object):** Defines the structure of the data exchanged between the different layers of the application.
+
+This architecture promotes a clear separation of concerns and enhances the maintainability and scalability of the application.
+
 ## Environment
 
 - Use Golang version 1.19

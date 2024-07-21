@@ -8,6 +8,16 @@ import (
 	"github.com/google/uuid"
 )
 
+// PondList godoc
+// @Summary List Ponds
+// @Schemes
+// @Description Get the list of all ponds
+// @Tags DELOS CRUD-APP PONDS
+// @Produce json
+// @Success 200 {array} dto.Pond
+// @Failure 404 {object} dto.PondListErrorResponse
+// @Failure 500 {object} dto.PondListErrorResponse
+// @Router /pond/list [get]
 func PondList(ctx *gin.Context) {
     ponds, err := dao.PondList()
     if err != nil {
@@ -21,6 +31,18 @@ func PondList(ctx *gin.Context) {
     ctx.JSON(http.StatusOK, ponds)
 }
 
+// PondListById godoc
+// @Summary Get Pond by ID
+// @Schemes
+// @Description Get details of a specific pond by its ID
+// @Tags DELOS CRUD-APP PONDS
+// @Produce json
+// @Param id path string true "Pond ID"
+// @Success 200 {object} dto.Pond
+// @Failure 400 {object} dto.PondListByIdErrorResponse
+// @Failure 404 {object} dto.PondListByIdErrorResponse
+// @Failure 500 {object} dto.PondListByIdErrorResponse
+// @Router /pond/list/{id} [get]
 func PondListById(ctx *gin.Context) {
     idStr := ctx.Param("id")
     id, err := uuid.Parse(idStr)
@@ -41,6 +63,20 @@ func PondListById(ctx *gin.Context) {
     ctx.JSON(http.StatusOK, pond)
 }
 
+// CreatePond godoc
+// @Summary Create Pond
+// @Schemes
+// @Description Create a new pond
+// @Tags DELOS CRUD-APP PONDS
+// @Accept json
+// @Produce json
+// @Param CreatePond body dto.CreatePond true "Pond creation payload"
+// @Success 201 {object} dto.Pond
+// @Failure 400 {object} dto.CreatePondErrorResponse
+// @Failure 404 {object} dto.CreatePondErrorResponse
+// @Failure 409 {object} dto.CreatePondErrorResponse
+// @Failure 500 {object} dto.CreatePondErrorResponse
+// @Router /pond/create [post]
 func CreatePond(ctx *gin.Context) {
     var createPondDto dto.CreatePond
     if err := ctx.ShouldBindJSON(&createPondDto); err != nil {
@@ -65,6 +101,18 @@ func CreatePond(ctx *gin.Context) {
     ctx.JSON(http.StatusCreated, pond)
 }
 
+// UpdatePond godoc
+// @Summary Update Pond
+// @Schemes
+// @Description Update an existing pond
+// @Tags DELOS CRUD-APP PONDS
+// @Accept json
+// @Produce json
+// @Param UpdatePond body dto.UpdatePond true "Pond update payload"
+// @Success 200 {object} dto.Pond
+// @Failure 400 {object} dto.UpdatePondErrorResponse
+// @Failure 500 {object} dto.UpdatePondErrorResponse
+// @Router /pond/update [put]
 func UpdatePond(ctx *gin.Context) {
     var updatePondDto dto.UpdatePond
 
@@ -102,6 +150,17 @@ func UpdatePond(ctx *gin.Context) {
     ctx.JSON(http.StatusOK, updatePondDto)
 }
 
+// DeletePond godoc
+// @Summary Delete Pond
+// @Schemes
+// @Description Delete a pond by its ID
+// @Tags DELOS CRUD-APP PONDS
+// @Param id path string true "Pond ID"
+// @Success 200 {object} dto.DeletePondResponse
+// @Failure 400 {object} dto.DeletePondErrorResponse
+// @Failure 404 {object} dto.DeletePondErrorResponse
+// @Failure 500 {object} dto.DeletePondErrorResponse
+// @Router /pond/delete/{id} [delete]
 func DeletePond(ctx *gin.Context) {
     idStr := ctx.Param("id")
     id, err := uuid.Parse(idStr)

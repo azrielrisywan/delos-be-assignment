@@ -28,6 +28,21 @@ definitions:
         example: Bero Farm
         type: string
     type: object
+  dto.CreatePond:
+    properties:
+      farm_id:
+        example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
+        type: string
+      name:
+        example: Main Pond
+        type: string
+    type: object
+  dto.CreatePondErrorResponse:
+    properties:
+      error:
+        example: Failed to create pond
+        type: string
+    type: object
   dto.DeleteFarmErrorResponse:
     properties:
       error:
@@ -38,6 +53,18 @@ definitions:
     properties:
       message:
         example: Farm deleted successfully
+        type: string
+    type: object
+  dto.DeletePondErrorResponse:
+    properties:
+      error:
+        example: Failed to delete pond
+        type: string
+    type: object
+  dto.DeletePondResponse:
+    properties:
+      message:
+        example: Pond deleted successfully
         type: string
     type: object
   dto.Farm:
@@ -80,6 +107,39 @@ definitions:
         type: string
       name:
         example: Bero Farm
+        type: string
+    type: object
+  dto.Pond:
+    properties:
+      created_on:
+        example: "2024-07-19T13:41:42.770296Z"
+        type: string
+      deleted:
+        example: "0"
+        type: string
+      deleted_on:
+        example: "null"
+        type: string
+      farm_id:
+        example: d01629f8-c708-4c92-b950-848eefd26b9a
+        type: string
+      id:
+        example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
+        type: string
+      name:
+        example: Main Pond
+        type: string
+    type: object
+  dto.PondListByIdErrorResponse:
+    properties:
+      error:
+        example: Invalid ID or Pond not found
+        type: string
+    type: object
+  dto.PondListErrorResponse:
+    properties:
+      error:
+        example: No ponds found
         type: string
     type: object
   dto.SignInRequest:
@@ -193,20 +253,32 @@ definitions:
     type: object
   dto.UpdateFarmResponse:
     properties:
-      created_on:
-        example: "2024-07-19T13:41:42.770296Z"
-        type: string
-      deleted:
-        example: "0"
-        type: string
-      deleted_on:
-        example: "null"
-        type: string
       id:
         example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
         type: string
       name:
-        example: Bero Farm
+        example: Bero Farm Updated
+        type: string
+    required:
+    - id
+    - name
+    type: object
+  dto.UpdatePond:
+    properties:
+      farm_id:
+        example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
+        type: string
+      id:
+        example: d01629f8-c708-4c92-b950-848eefd26b9a
+        type: string
+      name:
+        example: Updated Pond
+        type: string
+    type: object
+  dto.UpdatePondErrorResponse:
+    properties:
+      error:
+        example: Failed to update pond
         type: string
     type: object
   dto.UserMetadata:
@@ -354,6 +426,157 @@ paths:
       summary: Update a Farm
       tags:
       - DELOS CRUD-APP FARMS
+  /pond/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new pond
+      parameters:
+      - description: Pond creation payload
+        in: body
+        name: CreatePond
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreatePond'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.Pond'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CreatePondErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.CreatePondErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.CreatePondErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.CreatePondErrorResponse'
+      summary: Create Pond
+      tags:
+      - DELOS CRUD-APP PONDS
+  /pond/delete/{id}:
+    delete:
+      description: Delete a pond by its ID
+      parameters:
+      - description: Pond ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeletePondResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.DeletePondErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.DeletePondErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.DeletePondErrorResponse'
+      summary: Delete Pond
+      tags:
+      - DELOS CRUD-APP PONDS
+  /pond/list:
+    get:
+      description: Get the list of all ponds
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.Pond'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.PondListErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.PondListErrorResponse'
+      summary: List Ponds
+      tags:
+      - DELOS CRUD-APP PONDS
+  /pond/list/{id}:
+    get:
+      description: Get details of a specific pond by its ID
+      parameters:
+      - description: Pond ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Pond'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.PondListByIdErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.PondListByIdErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.PondListByIdErrorResponse'
+      summary: Get Pond by ID
+      tags:
+      - DELOS CRUD-APP PONDS
+  /pond/update:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing pond
+      parameters:
+      - description: Pond update payload
+        in: body
+        name: UpdatePond
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePond'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Pond'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.UpdatePondErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.UpdatePondErrorResponse'
+      summary: Update Pond
+      tags:
+      - DELOS CRUD-APP PONDS
   /signin:
     post:
       consumes:

@@ -215,6 +215,236 @@ const docTemplate = `{
                 }
             }
         },
+        "/pond/create": {
+            "post": {
+                "description": "Create a new pond",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP PONDS"
+                ],
+                "summary": "Create Pond",
+                "parameters": [
+                    {
+                        "description": "Pond creation payload",
+                        "name": "CreatePond",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePond"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Pond"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePondErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePondErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePondErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePondErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pond/delete/{id}": {
+            "delete": {
+                "description": "Delete a pond by its ID",
+                "tags": [
+                    "DELOS CRUD-APP PONDS"
+                ],
+                "summary": "Delete Pond",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Pond ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeletePondResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeletePondErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeletePondErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeletePondErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pond/list": {
+            "get": {
+                "description": "Get the list of all ponds",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP PONDS"
+                ],
+                "summary": "List Ponds",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.Pond"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PondListErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PondListErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pond/list/{id}": {
+            "get": {
+                "description": "Get details of a specific pond by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP PONDS"
+                ],
+                "summary": "Get Pond by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Pond ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Pond"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PondListByIdErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PondListByIdErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PondListByIdErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pond/update": {
+            "put": {
+                "description": "Update an existing pond",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP PONDS"
+                ],
+                "summary": "Update Pond",
+                "parameters": [
+                    {
+                        "description": "Pond update payload",
+                        "name": "UpdatePond",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdatePond"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Pond"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdatePondErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdatePondErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/signin": {
             "post": {
                 "description": "Sign In using email and password if you have signed up before",
@@ -327,6 +557,28 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CreatePond": {
+            "type": "object",
+            "properties": {
+                "farm_id": {
+                    "type": "string",
+                    "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Main Pond"
+                }
+            }
+        },
+        "dto.CreatePondErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Failed to create pond"
+                }
+            }
+        },
         "dto.DeleteFarmErrorResponse": {
             "type": "object",
             "properties": {
@@ -342,6 +594,24 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "Farm deleted successfully"
+                }
+            }
+        },
+        "dto.DeletePondErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Failed to delete pond"
+                }
+            }
+        },
+        "dto.DeletePondResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Pond deleted successfully"
                 }
             }
         },
@@ -401,6 +671,53 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "Bero Farm"
+                }
+            }
+        },
+        "dto.Pond": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string",
+                    "example": "2024-07-19T13:41:42.770296Z"
+                },
+                "deleted": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "deleted_on": {
+                    "type": "string",
+                    "example": "null"
+                },
+                "farm_id": {
+                    "type": "string",
+                    "example": "d01629f8-c708-4c92-b950-848eefd26b9a"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Main Pond"
+                }
+            }
+        },
+        "dto.PondListByIdErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Invalid ID or Pond not found"
+                }
+            }
+        },
+        "dto.PondListErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "No ponds found"
                 }
             }
         },
@@ -569,26 +886,44 @@ const docTemplate = `{
         },
         "dto.UpdateFarmResponse": {
             "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
             "properties": {
-                "created_on": {
-                    "type": "string",
-                    "example": "2024-07-19T13:41:42.770296Z"
-                },
-                "deleted": {
-                    "type": "string",
-                    "example": "0"
-                },
-                "deleted_on": {
-                    "type": "string",
-                    "example": "null"
-                },
                 "id": {
                     "type": "string",
                     "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
                 },
                 "name": {
                     "type": "string",
-                    "example": "Bero Farm"
+                    "example": "Bero Farm Updated"
+                }
+            }
+        },
+        "dto.UpdatePond": {
+            "type": "object",
+            "properties": {
+                "farm_id": {
+                    "type": "string",
+                    "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "d01629f8-c708-4c92-b950-848eefd26b9a"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Updated Pond"
+                }
+            }
+        },
+        "dto.UpdatePondErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Failed to update pond"
                 }
             }
         },
@@ -622,8 +957,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
+	// LeftDelim:        "{{",
+	// RightDelim:       "}}",
 }
 
 func init() {

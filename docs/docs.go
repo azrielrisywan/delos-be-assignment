@@ -15,6 +15,206 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/farm/create": {
+            "post": {
+                "description": "Create a new farm with a unique name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP FARMS"
+                ],
+                "summary": "Create a new Farm",
+                "parameters": [
+                    {
+                        "description": "Create Farm Payload",
+                        "name": "CreateFarm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFarm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFarmResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFarmErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/farm/delete/{id}": {
+            "delete": {
+                "description": "Delete a farm by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP FARMS"
+                ],
+                "summary": "Delete a Farm",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Farm ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeleteFarmResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeleteFarmErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeleteFarmErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/farm/list": {
+            "get": {
+                "description": "Get the list of all farms",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP FARMS"
+                ],
+                "summary": "List Farms",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/dto.Farm"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.FarmListErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/farm/list/{id}": {
+            "get": {
+                "description": "Get details of a farm by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP FARMS"
+                ],
+                "summary": "Get Farm by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Farm ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.FarmResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.FarmListErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/farm/update": {
+            "put": {
+                "description": "Update a farm by ID or create a new farm if the ID does not exist",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DELOS CRUD-APP FARMS"
+                ],
+                "summary": "Update a Farm",
+                "parameters": [
+                    {
+                        "description": "Update Farm Payload",
+                        "name": "UpdateFarm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateFarm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateFarmResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFarmResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateFarmErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateFarmErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/signin": {
             "post": {
                 "description": "Sign In using email and password if you have signed up before",
@@ -25,7 +225,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "DELOS CRUD-APP"
+                    "DELOS AUTH-APP"
                 ],
                 "summary": "Sign In",
                 "parameters": [
@@ -59,7 +259,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "DELOS CRUD-APP"
+                    "DELOS AUTH-APP"
                 ],
                 "summary": "Sign Up",
                 "parameters": [
@@ -85,6 +285,125 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.CreateFarm": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateFarmErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Duplicate farm name"
+                }
+            }
+        },
+        "dto.CreateFarmResponse": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string",
+                    "example": "2024-07-19T13:41:42.770296Z"
+                },
+                "deleted": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "deleted_on": {
+                    "type": "string",
+                    "example": "null"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Bero Farm"
+                }
+            }
+        },
+        "dto.DeleteFarmErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Invalid ID or Farm not found"
+                }
+            }
+        },
+        "dto.DeleteFarmResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Farm deleted successfully"
+                }
+            }
+        },
+        "dto.Farm": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string",
+                    "example": "2024-07-19T13:41:42.770296Z"
+                },
+                "deleted": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "deleted_on": {
+                    "type": "string",
+                    "example": "null"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Bero Farm"
+                }
+            }
+        },
+        "dto.FarmListErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "No farms found"
+                }
+            }
+        },
+        "dto.FarmResponse": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string",
+                    "example": "2024-07-19T13:41:42.770296Z"
+                },
+                "deleted": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "deleted_on": {
+                    "type": "string",
+                    "example": "null"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Bero Farm"
+                }
+            }
+        },
         "dto.SignInRequest": {
             "type": "object",
             "properties": {
@@ -169,10 +488,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "risywanazriel@gmail.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "123456"
                 }
             }
         },
@@ -217,6 +538,57 @@ const docTemplate = `{
                             "$ref": "#/definitions/dto.UserMetadata"
                         }
                     }
+                }
+            }
+        },
+        "dto.UpdateFarm": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Bero Farm Updated"
+                }
+            }
+        },
+        "dto.UpdateFarmErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Invalid ID"
+                }
+            }
+        },
+        "dto.UpdateFarmResponse": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string",
+                    "example": "2024-07-19T13:41:42.770296Z"
+                },
+                "deleted": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "deleted_on": {
+                    "type": "string",
+                    "example": "null"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "c48e3c9d-50a8-400c-b63f-f72b67c6fe5b"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Bero Farm"
                 }
             }
         },

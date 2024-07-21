@@ -12,7 +12,7 @@ import (
 // @Summary Sign Up
 // @Schemes
 // @Description Sign Up using email and password
-// @Tags DELOS CRUD-APP
+// @Tags DELOS AUTH-APP
 // @Accept json
 // @Produce json
 // @Param SignUpRequest body dto.SignUpRequest true "Sign Up Payload"
@@ -46,7 +46,7 @@ func SignUp(ctx *gin.Context) {
 // @Summary Sign In
 // @Schemes
 // @Description Sign In using email and password if you have signed up before
-// @Tags DELOS CRUD-APP
+// @Tags DELOS AUTH-APP
 // @Accept json
 // @Produce json
 // @Param SignInRequest body dto.SignInRequest true "Sign In Payload"

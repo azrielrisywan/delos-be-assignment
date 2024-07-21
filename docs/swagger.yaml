@@ -1,4 +1,87 @@
 definitions:
+  dto.CreateFarm:
+    properties:
+      name:
+        type: string
+    type: object
+  dto.CreateFarmErrorResponse:
+    properties:
+      error:
+        example: Duplicate farm name
+        type: string
+    type: object
+  dto.CreateFarmResponse:
+    properties:
+      created_on:
+        example: "2024-07-19T13:41:42.770296Z"
+        type: string
+      deleted:
+        example: "0"
+        type: string
+      deleted_on:
+        example: "null"
+        type: string
+      id:
+        example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
+        type: string
+      name:
+        example: Bero Farm
+        type: string
+    type: object
+  dto.DeleteFarmErrorResponse:
+    properties:
+      error:
+        example: Invalid ID or Farm not found
+        type: string
+    type: object
+  dto.DeleteFarmResponse:
+    properties:
+      message:
+        example: Farm deleted successfully
+        type: string
+    type: object
+  dto.Farm:
+    properties:
+      created_on:
+        example: "2024-07-19T13:41:42.770296Z"
+        type: string
+      deleted:
+        example: "0"
+        type: string
+      deleted_on:
+        example: "null"
+        type: string
+      id:
+        example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
+        type: string
+      name:
+        example: Bero Farm
+        type: string
+    type: object
+  dto.FarmListErrorResponse:
+    properties:
+      error:
+        example: No farms found
+        type: string
+    type: object
+  dto.FarmResponse:
+    properties:
+      created_on:
+        example: "2024-07-19T13:41:42.770296Z"
+        type: string
+      deleted:
+        example: "0"
+        type: string
+      deleted_on:
+        example: "null"
+        type: string
+      id:
+        example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
+        type: string
+      name:
+        example: Bero Farm
+        type: string
+    type: object
   dto.SignInRequest:
     properties:
       email:
@@ -55,8 +138,10 @@ definitions:
   dto.SignUpRequest:
     properties:
       email:
+        example: risywanazriel@gmail.com
         type: string
       password:
+        example: "123456"
         type: string
     type: object
   dto.SignUpResponse:
@@ -88,6 +173,42 @@ definitions:
             $ref: '#/definitions/dto.UserMetadata'
         type: object
     type: object
+  dto.UpdateFarm:
+    properties:
+      id:
+        example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
+        type: string
+      name:
+        example: Bero Farm Updated
+        type: string
+    required:
+    - id
+    - name
+    type: object
+  dto.UpdateFarmErrorResponse:
+    properties:
+      error:
+        example: Invalid ID
+        type: string
+    type: object
+  dto.UpdateFarmResponse:
+    properties:
+      created_on:
+        example: "2024-07-19T13:41:42.770296Z"
+        type: string
+      deleted:
+        example: "0"
+        type: string
+      deleted_on:
+        example: "null"
+        type: string
+      id:
+        example: c48e3c9d-50a8-400c-b63f-f72b67c6fe5b
+        type: string
+      name:
+        example: Bero Farm
+        type: string
+    type: object
   dto.UserMetadata:
     properties:
       email:
@@ -102,6 +223,137 @@ definitions:
 info:
   contact: {}
 paths:
+  /farm/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new farm with a unique name
+      parameters:
+      - description: Create Farm Payload
+        in: body
+        name: CreateFarm
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateFarm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CreateFarmResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.CreateFarmErrorResponse'
+      summary: Create a new Farm
+      tags:
+      - DELOS CRUD-APP FARMS
+  /farm/delete/{id}:
+    delete:
+      description: Delete a farm by ID
+      parameters:
+      - description: Farm ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeleteFarmResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.DeleteFarmErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.DeleteFarmErrorResponse'
+      summary: Delete a Farm
+      tags:
+      - DELOS CRUD-APP FARMS
+  /farm/list:
+    get:
+      description: Get the list of all farms
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/dto.Farm'
+              type: array
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.FarmListErrorResponse'
+      summary: List Farms
+      tags:
+      - DELOS CRUD-APP FARMS
+  /farm/list/{id}:
+    get:
+      description: Get details of a farm by its ID
+      parameters:
+      - description: Farm ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.FarmResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.FarmListErrorResponse'
+      summary: Get Farm by ID
+      tags:
+      - DELOS CRUD-APP FARMS
+  /farm/update:
+    put:
+      consumes:
+      - application/json
+      description: Update a farm by ID or create a new farm if the ID does not exist
+      parameters:
+      - description: Update Farm Payload
+        in: body
+        name: UpdateFarm
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateFarm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateFarmResponse'
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CreateFarmResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.UpdateFarmErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.UpdateFarmErrorResponse'
+      summary: Update a Farm
+      tags:
+      - DELOS CRUD-APP FARMS
   /signin:
     post:
       consumes:
@@ -123,7 +375,7 @@ paths:
             $ref: '#/definitions/dto.SignInResponse'
       summary: Sign In
       tags:
-      - DELOS CRUD-APP
+      - DELOS AUTH-APP
   /signup:
     post:
       consumes:
@@ -145,5 +397,5 @@ paths:
             $ref: '#/definitions/dto.SignUpResponse'
       summary: Sign Up
       tags:
-      - DELOS CRUD-APP
+      - DELOS AUTH-APP
 swagger: "2.0"

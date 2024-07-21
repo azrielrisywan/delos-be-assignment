@@ -1,0 +1,149 @@
+definitions:
+  dto.SignInRequest:
+    properties:
+      email:
+        example: risywanazriel@gmail.com
+        type: string
+      password:
+        example: "123456"
+        type: string
+    type: object
+  dto.SignInResponse:
+    properties:
+      user:
+        properties:
+          access_token:
+            type: string
+          expires_in:
+            type: integer
+          provider_refresh_token:
+            type: string
+          provider_token:
+            type: string
+          refresh_token:
+            type: string
+          token_type:
+            type: string
+          user:
+            properties:
+              app_metadata:
+                additionalProperties: true
+                type: object
+              aud:
+                type: string
+              confirmation_sent_at:
+                type: string
+              confirmed_at:
+                type: string
+              created_at:
+                type: string
+              email:
+                type: string
+              id:
+                type: string
+              invited_at:
+                type: string
+              role:
+                type: string
+              updated_at:
+                type: string
+              user_metadata:
+                $ref: '#/definitions/dto.UserMetadata'
+            type: object
+        type: object
+    type: object
+  dto.SignUpRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  dto.SignUpResponse:
+    properties:
+      user:
+        properties:
+          app_metadata:
+            additionalProperties: true
+            type: object
+          aud:
+            type: string
+          confirmation_sent_at:
+            type: string
+          confirmed_at:
+            type: string
+          created_at:
+            type: string
+          email:
+            type: string
+          id:
+            type: string
+          invited_at:
+            type: string
+          role:
+            type: string
+          updated_at:
+            type: string
+          user_metadata:
+            $ref: '#/definitions/dto.UserMetadata'
+        type: object
+    type: object
+  dto.UserMetadata:
+    properties:
+      email:
+        type: string
+      email_verified:
+        type: boolean
+      phone_verified:
+        type: boolean
+      sub:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /signin:
+    post:
+      consumes:
+      - application/json
+      description: Sign In using email and password if you have signed up before
+      parameters:
+      - description: Sign In Payload
+        in: body
+        name: SignInRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SignInResponse'
+      summary: Sign In
+      tags:
+      - DELOS CRUD-APP
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Sign Up using email and password
+      parameters:
+      - description: Sign Up Payload
+        in: body
+        name: SignUpRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SignUpResponse'
+      summary: Sign Up
+      tags:
+      - DELOS CRUD-APP
+swagger: "2.0"

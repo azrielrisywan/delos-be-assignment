@@ -8,6 +8,16 @@ import (
 	"crud-app/config"
 )
 
+// SignUp godoc
+// @Summary Sign Up
+// @Schemes
+// @Description Sign Up using email and password
+// @Tags DELOS CRUD-APP
+// @Accept json
+// @Produce json
+// @Param SignUpRequest body dto.SignUpRequest true "Sign Up Payload"
+// @Success 200 {object} dto.SignUpResponse
+// @Router /signup [post]
 func SignUp(ctx *gin.Context) {
 	// Bind the request body to the SignUpRequest struct
 	var requestBody dto.SignUpRequest
@@ -32,8 +42,18 @@ func SignUp(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"user": user})
 }
 
+// Sign In godoc
+// @Summary Sign In
+// @Schemes
+// @Description Sign In using email and password if you have signed up before
+// @Tags DELOS CRUD-APP
+// @Accept json
+// @Produce json
+// @Param SignInRequest body dto.SignInRequest true "Sign In Payload"
+// @Success 200 {object} dto.SignInResponse
+// @Router /signin [post]
 func SignIn(ctx *gin.Context) {
-	var requestBody dto.SignUpRequest
+	var requestBody dto.SignInRequest
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

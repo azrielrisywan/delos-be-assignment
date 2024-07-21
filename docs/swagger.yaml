@@ -135,6 +135,8 @@ definitions:
       deleted_on:
         example: "null"
         type: string
+      farm:
+        $ref: '#/definitions/dto.Farm'
       farm_id:
         example: d01629f8-c708-4c92-b950-848eefd26b9a
         type: string
@@ -510,7 +512,7 @@ paths:
       - DELOS CRUD-APP PONDS
   /pond/list:
     get:
-      description: Get the list of all ponds
+      description: Get the list of all ponds, including associated farm details
       produces:
       - application/json
       responses:
@@ -533,7 +535,8 @@ paths:
       - DELOS CRUD-APP PONDS
   /pond/list/{id}:
     get:
-      description: Get details of a specific pond by its ID
+      description: Get details of a specific pond by its ID, including associated
+        farm details
       parameters:
       - description: Pond ID
         in: path

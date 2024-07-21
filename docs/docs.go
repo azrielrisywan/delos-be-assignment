@@ -319,7 +319,7 @@ const docTemplate = `{
         },
         "/pond/list": {
             "get": {
-                "description": "Get the list of all ponds",
+                "description": "Get the list of all ponds, including associated farm details",
                 "produces": [
                     "application/json"
                 ],
@@ -354,7 +354,7 @@ const docTemplate = `{
         },
         "/pond/list/{id}": {
             "get": {
-                "description": "Get details of a specific pond by its ID",
+                "description": "Get details of a specific pond by its ID, including associated farm details",
                 "produces": [
                     "application/json"
                 ],
@@ -740,6 +740,9 @@ const docTemplate = `{
                 "deleted_on": {
                     "type": "string",
                     "example": "null"
+                },
+                "farm": {
+                    "$ref": "#/definitions/dto.Farm"
                 },
                 "farm_id": {
                     "type": "string",

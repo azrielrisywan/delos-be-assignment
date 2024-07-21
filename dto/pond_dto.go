@@ -23,6 +23,7 @@ type Pond struct {
     CreatedOn time.Time  `json:"created_on" db:"d_created_on" example:"2024-07-19T13:41:42.770296Z"`
     Deleted   *string    `json:"deleted,omitempty" db:"c_deleted" example:"0"`
     DeletedOn *time.Time `json:"deleted_on,omitempty" db:"d_deleted_on" example:"null"`
+    Farm      *Farm       `json:"farm,omitempty"`
 }
 
 type DeletePondResponse struct {

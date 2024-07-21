@@ -11,7 +11,7 @@ import (
 // PondList godoc
 // @Summary List Ponds
 // @Schemes
-// @Description Get the list of all ponds
+// @Description Get the list of all ponds, including associated farm details
 // @Tags DELOS CRUD-APP PONDS
 // @Produce json
 // @Success 200 {array} dto.Pond
@@ -28,13 +28,24 @@ func PondList(ctx *gin.Context) {
         ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
+
+    // Retrieve farm details for each pond
+    for i := range ponds {
+        farm, err := dao.FarmListById(ponds[i].FarmID)
+        if err != nil {
+            ponds[i].Farm = nil 
+        } else {
+            ponds[i].Farm = &farm 
+        }
+    }
+
     ctx.JSON(http.StatusOK, ponds)
 }
 
 // PondListById godoc
 // @Summary Get Pond by ID
 // @Schemes
-// @Description Get details of a specific pond by its ID
+// @Description Get details of a specific pond by its ID, including associated farm details
 // @Tags DELOS CRUD-APP PONDS
 // @Produce json
 // @Param id path string true "Pond ID"
@@ -60,6 +71,15 @@ func PondListById(ctx *gin.Context) {
         ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
+
+    // Retrieve farm details for the specific pond
+    farm, err := dao.FarmListById(pond.FarmID)
+    if err != nil {
+        pond.Farm = nil
+    } else {
+        pond.Farm = &farm
+    }
+
     ctx.JSON(http.StatusOK, pond)
 }
 

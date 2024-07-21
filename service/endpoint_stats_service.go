@@ -6,6 +6,15 @@ import (
     "net/http"
 )
 
+// GetEndpointStats godoc
+// @Summary Retrieve Endpoint Stats
+// @Schemes
+// @Description Get the count of how many times each endpoint is called
+// @Tags Endpoint Stats
+// @Produce json
+// @Success 200 {array} dto.EndpointStatsResponse
+// @Failure 404 {object} dto.EndpointStatsErrorResponse
+// @Router /stats [get]
 func GetEndpointStats(ctx *gin.Context) {
     stats, err := dao.GetEndpointStats()
     if err != nil {

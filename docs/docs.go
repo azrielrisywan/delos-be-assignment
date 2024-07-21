@@ -512,6 +512,35 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/stats": {
+            "get": {
+                "description": "Get the count of how many times each endpoint is called",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Endpoint Stats"
+                ],
+                "summary": "Retrieve Endpoint Stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.EndpointStatsResponse"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.EndpointStatsErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -612,6 +641,29 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "Pond deleted successfully"
+                }
+            }
+        },
+        "dto.EndpointStatsErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "no endpoints tracked"
+                }
+            }
+        },
+        "dto.EndpointStatsResponse": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "type": "integer"
+                    },
+                    "unique_user_agents": {
+                        "type": "integer"
+                    }
                 }
             }
         },
@@ -957,8 +1009,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	// LeftDelim:        "{{",
-	// RightDelim:       "}}",
+	LeftDelim:        "{{",
+	RightDelim:       "}}",
 }
 
 func init() {

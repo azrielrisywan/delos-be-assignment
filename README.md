@@ -55,12 +55,12 @@ Before using the main features of the app, you need to sign up and sign in to ob
 
 ### Sign Up
 
-- **Endpoint:** `localhost:8888/signup`
+- **Endpoint:** `localhost:8989/signup`
 - Sign up with your active email. An activation link will be sent to your email after sign up. [Test with Swagger](http://localhost:8989/swagger/index.html)*
 
 ### Sign In
 
-- **Endpoint:** `localhost:8888/signin`
+- **Endpoint:** `localhost:8989/signin`
 - You can sign in with the following credentials:
   - Email: `risywanazriel@gmail.com`
   - Password: `123456`

@@ -132,6 +132,19 @@ Attach `access_token` to these endpoint headers, for example:
 - **Endpoint:** `GET localhost:8989/stats`
 - Counts how many times each endpoint is called. [Test with Swagger](http://localhost:8989/swagger/index.html)*
 
+# Unit Test
+
+- How to run Unit Test
+1. controller/farm_controller_test.go
+    ```bash
+    go test -v controller/farm_controller_test.go 
+    ```
+
+2. controller/pond_controller_test.go
+    ```bash
+    go test -v controller/pond_controller_test.go 
+    ```
+
 # Swagger Docs
 
 Link : http://localhost:8989/swagger/index.html 
